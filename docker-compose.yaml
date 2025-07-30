@@ -1,0 +1,49 @@
+services:
+  backend:
+    build:
+      context: .
+    container_name: backend
+    ports:
+      - "8888:8888"
+    links:
+      - "db"
+    restart: always
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - default_ludito_net
+
+  db:
+    image: postgres:14.1-alpine
+    container_name: postgres
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    command: -p 5432
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -p 5432" ]
+      interval: 1s
+    networks:
+      - default_ludito_net
+
+volumes:
+  postgres_data:
+
+networks:
+  default_ludito_net:
+    driver: bridge
