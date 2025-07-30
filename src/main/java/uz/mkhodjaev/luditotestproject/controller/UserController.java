@@ -23,7 +23,7 @@ public class UserController {
 
     @PostMapping("/create")
     public ResponseEntity<Long> createUser(@RequestBody UserDto dto, @RequestParam Long initialBalance) {
-        var user = userService.createUser(dto, initialBalance);
+        var user = userService.createUser(dto);
         transactionService.createInitialTransaction(user, initialBalance);
         return ResponseEntity.ok(user.getId());
     }

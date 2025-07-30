@@ -19,7 +19,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User createUser(UserDto dto, Long balance) {
+    public User createUser(UserDto dto) {
         // Create a new user and save it to the repository
         User user = new User();
         user.setName(dto.getName());
@@ -58,11 +58,6 @@ public class UserService {
         User user = getUser(id);
         user.setName(name);
         userRepository.save(user);
-    }
-
-    public void deleteUser(Long id) {
-        // Delete a user by ID from the repository
-        userRepository.deleteById(id);
     }
 
     public Page<User> getUsers(Pageable pageable) {
