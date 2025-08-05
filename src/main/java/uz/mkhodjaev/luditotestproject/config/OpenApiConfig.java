@@ -1,9 +1,12 @@
 package uz.mkhodjaev.luditotestproject.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.Map;
 
 @Configuration
 public class OpenApiConfig {
@@ -13,7 +16,11 @@ public class OpenApiConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("Ludito Test Project API")
-                        .version("1.0.0")
+                        .version("1.0.1")
+                        .contact(new Contact()
+                                .name("Mardon Khodjaev")
+                                .email("mkhodjaev02@gmail.com")
+                                .extensions(Map.of("telegram", "https://t.me/mardonkhodjaev")))
                         .description("Документация API для Ludito Test Project"));
     }
 }

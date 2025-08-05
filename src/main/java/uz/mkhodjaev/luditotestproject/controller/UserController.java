@@ -1,5 +1,6 @@
 package uz.mkhodjaev.luditotestproject.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,8 @@ public class UserController {
     }
 
     @PostMapping("/create")
+    @Operation(summary = "Создать пользователя",
+               description = "Создает нового пользователя и устанавливает начальный баланс")
     public ResponseEntity<Long> createUser(@RequestBody UserDto dto, @RequestParam Long initialBalance) {
         var user = userService.createUser(dto);
         transactionService.createInitialTransaction(user, initialBalance);
@@ -29,24 +32,32 @@ public class UserController {
     }
 
     @GetMapping("/all")
+    @Operation(summary = "Получить всех пользователей",
+               description = "Возвращает список всех пользователей с пагинацией")
     public ResponseEntity<Page<User>> getAllUsers(Pageable pageable) {
         Page<User> users = userService.getUsers(pageable);
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")
+@Operation(summary = "Получить пользователя по ID",
+           description = "Возвращает информацию о пользователе по заданному ID")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
         User user = userService.getUser(id);
         return ResponseEntity.ok(user);
     }
 
     @PostMapping("/update/{id}")
+    @Operation(summary = "Обновить пользователя",
+               description = "Обновляет информацию о пользователе по заданному ID")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody String name) {
         userService.updateUser(id, name);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}/balance")
+    @Operation(summary = "Получить баланс пользователя",
+               description = "Возвращает текущий баланс пользователя по его ID")
     public ResponseEntity<Long> getUserBalance(@PathVariable Long id) {
         User user = userService.getUser(id);
         Long balance = transactionService.getUserBalance(user);

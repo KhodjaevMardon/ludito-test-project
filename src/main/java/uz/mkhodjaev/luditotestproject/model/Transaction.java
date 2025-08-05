@@ -1,7 +1,6 @@
 package uz.mkhodjaev.luditotestproject.model;
 
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.util.Date;
 

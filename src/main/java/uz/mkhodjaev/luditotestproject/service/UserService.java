@@ -43,8 +43,12 @@ public class UserService {
 
     public User getSystemUser() {
         // Retrieve the system user by ID from the repository
-        return userRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("System user not found"));
+        var systemUserNotFound = userRepository.findById(1L);
+        if (systemUserNotFound.isEmpty()) {
+            createSystemUser(); // Create the system user if it does not exist
+            systemUserNotFound = userRepository.findById(1L);
+        }
+        return systemUserNotFound.orElseThrow(() -> new RuntimeException("System user not found"));
     }
 
     public User getUser(Long id) {
