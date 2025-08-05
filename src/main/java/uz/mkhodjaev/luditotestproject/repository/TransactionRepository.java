@@ -7,10 +7,10 @@ import org.springframework.stereotype.Repository;
 import uz.mkhodjaev.luditotestproject.model.Transaction;
 import uz.mkhodjaev.luditotestproject.model.User;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     Page<Transaction> findAllByFromUserOrToUser(User fromUser, User toUser, Pageable pageable);
-    Page<Transaction> findAllByTimestampBetween(Timestamp startDate, Timestamp endDate, Pageable pageable);
+    Page<Transaction> findAllByTimestampBetween(Date timestamp, Date timestamp2, Pageable pageable);
 }
